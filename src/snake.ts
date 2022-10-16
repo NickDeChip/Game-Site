@@ -163,14 +163,14 @@ const snakeMovement = () => {
 }
 
 const snakeWallPassThrough = () => {
-  if (snake.x >= winWidth + 40) {
+  if (snake.x > winWidth) {
     snake.x = 0
-  } else if (snake.x <= -40) {
+  } else if (snake.x < 0) {
     snake.x = winWidth
   }
-  if (snake.y >= winHight + 40) {
+  if (snake.y > winHight) {
     snake.y = 0
-  } else if (snake.y <= -40) {
+  } else if (snake.y < 0) {
     snake.y = winHight
   }
 
