@@ -1,4 +1,4 @@
-import { Rage } from "./rage";
+import { Rage } from "rage";
 
 let rage: Rage
 

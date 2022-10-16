@@ -1,4 +1,4 @@
-import { Rage } from "./rage";
+import { Rage } from "rage";
 import * as Vec2D from "vector2d"
 
 let rage: Rage

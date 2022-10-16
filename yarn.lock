@@ -1270,6 +1270,12 @@ posthtml@^0.16.4, posthtml@^0.16.5:
     posthtml-parser "^0.11.0"
     posthtml-render "^3.0.0"
 
+"rage@https://github.com/NickDeChip/rage":
+  version "1.0.0"
+  resolved "https://github.com/NickDeChip/rage#b3306063f177df368563984bf3bc1bfe60625a1e"
+  dependencies:
+    typescript "^4.8.4"
+
 react-error-overlay@6.0.9:
   version "6.0.9"
   resolved "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-6.0.9.tgz"
