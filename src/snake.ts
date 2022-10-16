@@ -6,6 +6,13 @@ let rage: Rage
 const winWidth = 1280
 const winHight = 720
 
+enum direction {
+  up = 1,
+  down,
+  left,
+  right,
+}
+
 const main = () => {
   rage = new Rage("snake-canvas", winWidth, winHight)
   rage.clearColor = "#202020"
@@ -22,14 +29,12 @@ const snake = {
   y: winHight / 2,
   width: 40,
   height: 40,
-  dirUp: false,
-  dirDown: false,
-  dirLeft: false,
-  dirRight: false,
   tick: 0,
   speed: 40,
   total: 0,
   tail: [],
+  direction: direction.left,
+  nextDirection: direction.left
 }
 
 const fruit = {
@@ -115,38 +120,23 @@ const fruitSpawn = () => {
 }
 
 const snakeMovement = () => {
+  if (rage.isKeyDown("w") && snake.direction != direction.down) {
+    snake.nextDirection = direction.up
+  }
+  if (rage.isKeyDown("s") && snake.direction != direction.up) {
+    snake.nextDirection = direction.down
+  }
+  if (rage.isKeyDown("a") && snake.direction != direction.right) {
+    snake.nextDirection = direction.left
 
+  }
+  if (rage.isKeyDown("d") && snake.direction != direction.left) {
+    snake.nextDirection = direction.right
+  }
 
   if (snake.tick >= 1) {
     snake.tick = 0
-    if (rage.isKeyDown("w") && !snake.dirDown) {
-      snake.speed = -40
-      snake.dirUp = true
-      snake.dirDown = false
-      snake.dirLeft = false
-      snake.dirRight = false
-    }
-    if (rage.isKeyDown("s") && !snake.dirUp) {
-      snake.speed = 40
-      snake.dirUp = false
-      snake.dirDown = true
-      snake.dirLeft = false
-      snake.dirRight = false
-    }
-    if (rage.isKeyDown("a") && !snake.dirRight) {
-      snake.speed = -40
-      snake.dirUp = false
-      snake.dirDown = false
-      snake.dirLeft = true
-      snake.dirRight = false
-    }
-    if (rage.isKeyDown("d") && !snake.dirLeft) {
-      snake.speed = 40
-      snake.dirUp = false
-      snake.dirDown = false
-      snake.dirLeft = false
-      snake.dirRight = true
-    }
+
     for (let i = 0; i < snake.tail.length - 1; i++) {
       snake.tail[i] = snake.tail[i + 1]
     }
@@ -154,24 +144,35 @@ const snakeMovement = () => {
       snake.tail[snake.total - 1] = new Vec2D.Vector(snake.x, snake.y)
     }
 
-    if (snake.dirLeft || snake.dirRight) {
-      snake.x += snake.speed
-    } else {
-      snake.y += snake.speed
+    snake.direction = snake.nextDirection
+
+    switch (snake.direction) {
+      case direction.up:
+        snake.y -= snake.speed
+        break
+      case direction.down:
+        snake.y += snake.speed
+        break
+      case direction.left:
+        snake.x -= snake.speed
+        break
+      case direction.right:
+        snake.x += snake.speed
+        break
     }
   }
 }
 
 const snakeWallPassThrough = () => {
-  if (snake.x > winWidth) {
+  if (snake.x >= winWidth) {
     snake.x = 0
   } else if (snake.x < 0) {
-    snake.x = winWidth
+    snake.x = winWidth - snake.width
   }
-  if (snake.y > winHight) {
+  if (snake.y >= winHight) {
     snake.y = 0
   } else if (snake.y < 0) {
-    snake.y = winHight
+    snake.y = winHight - snake.height
   }
 
 }
