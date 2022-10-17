@@ -30,6 +30,7 @@ const snake = {
   width: 40,
   height: 40,
   tick: 0,
+  tickspeed: 7,
   speed: 40,
   total: 0,
   tail: [],
@@ -70,7 +71,10 @@ const draw = () => {
 
 const update = () => {
   const dt = rage.getDT()
-  snake.tick += 8 * dt
+
+  if (snake.tickspeed >= 15) { snake.tickspeed = 15 }
+
+  snake.tick += snake.tickspeed * dt
   fruit.tick += 1 * dt
 
   if (rage.isKeyDown("r")) {
@@ -112,10 +116,10 @@ const fruitSpawn = () => {
   if (rage.checkCollisionsRecs(snake.x, snake.y, snake.width, snake.height, fruit.x, fruit.y, fruit.width, fruit.height)) {
     fruit.tick = 0
     snake.total++
+    snake.tickspeed += 0.2
     state.score++
     fruit.x = Math.floor(Math.random() * 32) * 40
     fruit.y = Math.floor(Math.random() * 18) * 40
-
   }
 }
 
