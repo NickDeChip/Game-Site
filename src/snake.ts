@@ -78,14 +78,7 @@ const update = () => {
   fruit.tick += 1 * dt
 
   if (rage.isKeyDown("r")) {
-    state.isGameOver = false
-    snake.x = winWidth / 2
-    snake.y = winHight / 2
-    fruit.x = Math.floor(Math.random() * 32) * 40
-    fruit.y = Math.floor(Math.random() * 18) * 40
-    snake.total = 0
-    snake.tail.length = 0
-    state.score = 0
+    restart()
   }
 
   if (state.isGameOver) {
@@ -179,6 +172,18 @@ const snakeWallPassThrough = () => {
     snake.y = winHight - snake.height
   }
 
+}
+
+const restart = () => {
+  state.isGameOver = false
+  snake.x = winWidth / 2
+  snake.y = winHight / 2
+  snake.tickspeed = 7
+  fruit.x = Math.floor(Math.random() * 32) * 40
+  fruit.y = Math.floor(Math.random() * 18) * 40
+  snake.total = 0
+  snake.tail.length = 0
+  state.score = 0
 }
 
 
