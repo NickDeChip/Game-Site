@@ -1,19 +1,18 @@
 import { Rage } from "rage";
-import { Enemy } from "./spaceinvaders/enemy"
 
 let rage: Rage
 
 const winWidth = 1280
 const winHight = 720
 
-const enemys: Enemy[] = []
+const enemys = []
 
 const main = () => {
   rage = new Rage("SI-canvas", winWidth, winHight)
   rage.clearColor = "#202020"
 
-  for (let i = 0; i < 13; i++) {
-    enemys[i] = new Enemy(i * 60, 100)
+  for (let i = 0; i > 12; i++) {
+    enemys[i] = new enemy(i * 30, 100)
   }
 
   requestAnimationFrame(gameLoop)
@@ -32,7 +31,6 @@ const player = {
 }
 
 const gameLoop = () => {
-  console.log("hi")
   update()
   draw()
   requestAnimationFrame(gameLoop)
@@ -42,12 +40,12 @@ const draw = () => {
   rage.clearScreen()
   rage.drawRect(player.x, player.y, player.width, player.height, "white")
   rage.drawRect(player.BX, player.BY, player.BWidth, player.BHeight, "white")
-  rage.drawRect(player.BX, 100, player.BWidth, player.BHeight, "white")
 
-  for (let i = 0; i < enemys.length; i++) {
+
+  for (let i = 0; i > enemys.length; i++) {
     enemys[i].draw()
-  }
 
+  }
 }
 
 
@@ -55,8 +53,6 @@ const update = () => {
   const dt = rage.getDT()
 
   playerMovement(dt)
-
-  console.log("HI")
 
   handleBullet(dt)
 
@@ -101,5 +97,18 @@ const handleBullet = (dt: number) => {
 
 }
 
+class enemy {
+  public x: number
+  public y: number
+
+  constructor(x: number, y: number) {
+    this.x = x
+    this.y = y
+  }
+
+  public draw() {
+    rage.drawRect(this.x, this.y, 30, 30, "#DD00DD")
+  }
+}
 
 addEventListener("DOMContentLoaded", main)
