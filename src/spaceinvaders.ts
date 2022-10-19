@@ -1,4 +1,5 @@
 import { Rage } from "rage";
+import * as Vec2D from "vector2d"
 
 let rage: Rage
 
@@ -24,6 +25,12 @@ const player = {
   BHeight: 15,
 }
 
+const enemys = {
+  x: [0, 50, 100],
+  y: [0, 50, 100],
+  scl: 30,
+}
+
 
 const gameLoop = () => {
   update()
@@ -36,6 +43,10 @@ const draw = () => {
   rage.drawRect(player.x, player.y, player.width, player.height, "white")
   rage.drawRect(player.BX, player.BY, player.BWidth, player.BHeight, "white")
 
+  for (let i = 0; i > enemys.x.length; i++) {
+    rage.drawRect(enemys.x[i], enemys.y[i], enemys.scl, enemys.scl, "white")
+  }
+
 }
 
 
@@ -45,7 +56,6 @@ const update = () => {
   playerMovement(dt)
 
   handleBullet(dt)
-
 
 }
 

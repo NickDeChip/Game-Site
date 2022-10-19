@@ -1272,7 +1272,7 @@ posthtml@^0.16.4, posthtml@^0.16.5:
 
 "rage@https://github.com/NickDeChip/rage":
   version "1.0.0"
-  resolved "https://github.com/NickDeChip/rage#b3306063f177df368563984bf3bc1bfe60625a1e"
+  resolved "https://github.com/NickDeChip/rage#ae8f4b30f084313a8cfb2a130fa61871c23a730a"
   dependencies:
     typescript "^4.8.4"
 

@@ -1,8 +1,23 @@
 # Game Site
 
-A website i am working on
+
+A website full of retro games
+
 
 ## How To Use
 
-Do "yarn start" to open
-# game-site
+Do "yarn install" To download packages
+
+
+Then do "yarn start" to open
+
+
+## games
+
+pong
+
+
+snake
+
+
+Space Invaders (work in progress)
