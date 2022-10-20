@@ -32,7 +32,6 @@ const player = {
 }
 
 const gameLoop = () => {
-  console.log("hi")
   update()
   draw()
   requestAnimationFrame(gameLoop)
@@ -55,8 +54,6 @@ const update = () => {
   const dt = rage.getDT()
 
   playerMovement(dt)
-
-  console.log("HI")
 
   handleBullet(dt)
 

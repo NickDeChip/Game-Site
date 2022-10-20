@@ -3,18 +3,29 @@ body {
   padding: 10px;
   margin: 0;
   background-size: cover;
+  background-color:#CDCDCD;
 }
 
 .header {
-  background-color: darkgray;
+  background-color: #666666;
   position:block;
   height: 60px;
+  max-width: 1000px;
   display: flex;
   flex: 1 1;
-  max-width: 1000px;
   align-items:center;
-  box-shadow:15px 20px black;
+  box-shadow:10px 10px black;
   margin-bottom: 30px;
+  border-radius: 20px;
+}
+
+.header:hover {
+  box-shadow:10px 10px blueviolet;
+}
+
+.pongheader :hover {
+  box-shadow:10px 10px pink;
+
 }
 
 .header-wrapper {
@@ -36,7 +47,7 @@ body {
 }
 
 .header li a{
-  color: darkgreen;
+  color: white;
   font-size: 25px;
   display:inline;
   font-family: serif;
@@ -49,7 +60,7 @@ body {
 }
 
 .text {
-  text-shadow:4px 4px 3px red;
+  text-shadow:3px 3px 3px red;
   font-size: 20px;
   text-align:center;
 }
