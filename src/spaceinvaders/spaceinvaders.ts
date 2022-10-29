@@ -20,17 +20,37 @@ const main = () => {
     bullets[i] = []
     for (let j = 0; j < 10; j++) {
       if (j === 0) {
-        enemys[i][j] = new Enemy(60, 50 * i)
-        enemys[i][j].y += 50
-        bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y)
+
+        if (i === 0) {
+          enemys[i][j] = new Enemy(60, 50 * i, 3)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        } else if (i == 1 || i === 2) {
+          enemys[i][j] = new Enemy(60, 50 * i, 2)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        } else {
+          enemys[i][j] = new Enemy(60, 50 * i, 1)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        }
       } else {
-        enemys[i][j] = new Enemy((j * 80) + 60, 50 * i)
-        enemys[i][j].y += 50
-        bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y)
+        if (i === 0) {
+          enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 3)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        } else if (i == 1 || i === 2) {
+          enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 2)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        } else {
+          enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 1)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        }
       }
     }
   }
-
   requestAnimationFrame(gameLoop)
 }
 
@@ -95,16 +115,21 @@ const update = () => {
     return
   }
 
+  enemyBulletMovement(dt)
+
+  handleEnemyCollision()
+
   playerMovement(dt)
 
   handleBullet(dt)
 
-
   handleEnemyMovement(dt)
 
-  enemyBulletMovement(dt)
-
-  handleEnemyCollision()
+  if (state.enemysAlive === 0) {
+    state.enemysAlive = totalEnemys
+    state.tickRate = state.enemysAlive * (0.5 / totalEnemys)
+    enemyRefresh()
+  }
 }
 
 const playerMovement = (dt: number) => {
@@ -146,17 +171,19 @@ const handleBullet = (dt: number) => {
 
 }
 
+let pointsToGive = 0
 const handleEnemyCollision = () => {
   for (let i = 0; i < enemys.length; i++) {
     for (let j = 0; j < enemys[i].length; j++) {
       if (enemys[i][j].collision(player.BX, player.BY, player.BWidth, player.BHeight)) {
+        pointsToGive = enemys[i][j].value
         enemys[i].splice(j, 1)
         player.BX = -100
         player.BY = 1000
         player.IsBulletOnScreen = false
         state.enemysAlive -= 1
         state.tickRate = state.enemysAlive * (0.5 / totalEnemys)
-        state.score += 10
+        state.score += pointsToGive
         break
       }
     }
@@ -197,11 +224,61 @@ const handleEnemyMovement = (dt: number) => {
 }
 
 
+let enemyBTick = 0
+let EX = 0
+let EY = 0
 const enemyBulletMovement = (dt: number) => {
+  enemyBTick += dt
+
   for (let i = 0; i < bullets.length; i++) {
     for (let j = 0; j < bullets[i].length; j++) {
-      if (state.enemyTick >= state.tickRate) {
-        bullets[i][j].handleMovement(dt, enemys[i][j].x, enemys[i][j].y)
+      if (enemyBTick >= state.tickRate) {
+        enemyBTick = 0
+        EX = enemys[i][j].x
+        EY = enemys[i][j].y
+      }
+      bullets[i][j].handleMovement(dt, EX, EY)
+    }
+  }
+}
+
+const enemyRefresh = () => {
+  for (let i = 0; i < totalEnemys / 10; i++) {
+    enemys[i] = []
+    bullets[i] = []
+    for (let j = 0; j < 10; j++) {
+
+      if (j === 0) {
+        if (i === 0) {
+          enemys[i][j] = new Enemy(60, 50 * i, 3)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        } else if (i == 1 || i === 2) {
+          enemys[i][j] = new Enemy(60, 50 * i, 2)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        } else {
+          enemys[i][j] = new Enemy(60, 50 * i, 1)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        }
+
+
+      } else {
+
+        if (i === 0) {
+          enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 3)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        } else if (i == 1 || i === 2) {
+          enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 2)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        } else {
+          enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 1)
+          enemys[i][j].y += 50
+          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+        }
       }
     }
   }
@@ -218,21 +295,7 @@ const restart = () => {
   state.lives = 3
   state.moveDirection = 17.5
 
-  for (let i = 0; i < totalEnemys / 10; i++) {
-    enemys[i] = []
-    bullets[i] = []
-    for (let j = 0; j < 10; j++) {
-      if (j === 0) {
-        enemys[i][j] = new Enemy(60, 50 * i)
-        enemys[i][j].y += 50
-        bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y)
-      } else {
-        enemys[i][j] = new Enemy((j * 80) + 60, 50 * i)
-        enemys[i][j].y += 50
-        bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y)
-      }
-    }
-  }
+  enemyRefresh()
 }
 
 addEventListener("DOMContentLoaded", main)
