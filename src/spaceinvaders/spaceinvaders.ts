@@ -24,29 +24,30 @@ const main = () => {
         if (i === 0) {
           enemys[i][j] = new Enemy(60, 50 * i, 3)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
+        } else if (i == 1 || i === 2) {
         } else if (i == 1 || i === 2) {
           enemys[i][j] = new Enemy(60, 50 * i, 2)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         } else {
           enemys[i][j] = new Enemy(60, 50 * i, 1)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         }
       } else {
         if (i === 0) {
           enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 3)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         } else if (i == 1 || i === 2) {
           enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 2)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         } else {
           enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 1)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         }
       }
     }
@@ -224,18 +225,18 @@ const handleEnemyMovement = (dt: number) => {
 }
 
 
-let enemyBTick = 0
 let EX = 0
 let EY = 0
 const enemyBulletMovement = (dt: number) => {
-  enemyBTick += dt
-
   for (let i = 0; i < bullets.length; i++) {
     for (let j = 0; j < bullets[i].length; j++) {
-      if (enemyBTick >= state.tickRate) {
-        enemyBTick = 0
-        EX = enemys[i][j].x
-        EY = enemys[i][j].y
+      for (const enemyRow of enemys) {
+        if (enemyRow.length) {
+          EX = enemys[i][j].x
+          EY = enemys[i][j].y
+        } else {
+          continue
+        }
       }
       bullets[i][j].handleMovement(dt, EX, EY)
     }
@@ -252,15 +253,15 @@ const enemyRefresh = () => {
         if (i === 0) {
           enemys[i][j] = new Enemy(60, 50 * i, 3)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         } else if (i == 1 || i === 2) {
           enemys[i][j] = new Enemy(60, 50 * i, 2)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         } else {
           enemys[i][j] = new Enemy(60, 50 * i, 1)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         }
 
 
@@ -269,15 +270,15 @@ const enemyRefresh = () => {
         if (i === 0) {
           enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 3)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         } else if (i == 1 || i === 2) {
           enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 2)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         } else {
           enemys[i][j] = new Enemy((j * 80) + 60, 50 * i, 1)
           enemys[i][j].y += 50
-          bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y,)
+          bullets[i][j] = new Bullet()
         }
       }
     }

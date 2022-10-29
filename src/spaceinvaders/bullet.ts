@@ -21,7 +21,7 @@ export class Bullet {
   private restartPos: boolean
 
 
-  constructor(EX: number, EY: number) {
+  constructor() {
     this.BSpeed = 300
     this.BTick = 0
     this.x = -1000
@@ -30,8 +30,8 @@ export class Bullet {
     this.height = 7.5
     this.colour = "#770F77"
 
-    this.otherX = EX
-    this.otherY = EY
+    this.otherX = -1000
+    this.otherY = 10000
 
     this.rand = Math.floor(Math.random() * 10)
 
