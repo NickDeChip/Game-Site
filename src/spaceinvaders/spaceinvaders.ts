@@ -22,11 +22,11 @@ const main = () => {
       if (j === 0) {
         enemys[i][j] = new Enemy(60, 50 * i)
         enemys[i][j].y += 50
-        bullets[i][j] = new Bullet()
+        bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y)
       } else {
         enemys[i][j] = new Enemy((j * 80) + 60, 50 * i)
         enemys[i][j].y += 50
-        bullets[i][j] = new Bullet()
+        bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y)
       }
     }
   }
@@ -99,12 +99,12 @@ const update = () => {
 
   handleBullet(dt)
 
-  handleEnemyCollision()
 
   handleEnemyMovement(dt)
 
   enemyBulletMovement(dt)
 
+  handleEnemyCollision()
 }
 
 const playerMovement = (dt: number) => {
@@ -200,7 +200,9 @@ const handleEnemyMovement = (dt: number) => {
 const enemyBulletMovement = (dt: number) => {
   for (let i = 0; i < bullets.length; i++) {
     for (let j = 0; j < bullets[i].length; j++) {
-      bullets[i][j].handleMovement(dt, enemys[i][j].x, enemys[i][j].y)
+      if (state.enemyTick >= state.tickRate) {
+        bullets[i][j].handleMovement(dt, enemys[i][j].x, enemys[i][j].y)
+      }
     }
   }
 }
@@ -223,11 +225,11 @@ const restart = () => {
       if (j === 0) {
         enemys[i][j] = new Enemy(60, 50 * i)
         enemys[i][j].y += 50
-        bullets[i][j] = new Bullet()
+        bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y)
       } else {
         enemys[i][j] = new Enemy((j * 80) + 60, 50 * i)
         enemys[i][j].y += 50
-        bullets[i][j] = new Bullet()
+        bullets[i][j] = new Bullet(enemys[i][j].x, enemys[i][j].y)
       }
     }
   }

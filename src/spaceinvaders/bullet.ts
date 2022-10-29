@@ -11,6 +11,9 @@ export class Bullet {
   private height: number
   private colour: string
 
+  public otherX: number
+  public otherY: number
+
   private rand: number
 
   private isOnScreen: boolean
@@ -18,7 +21,7 @@ export class Bullet {
   private restartPos: boolean
 
 
-  constructor() {
+  constructor(EX: number, EY: number) {
     this.BSpeed = 300
     this.BTick = 0
     this.x = -1000
@@ -27,27 +30,31 @@ export class Bullet {
     this.height = 7.5
     this.colour = "#770F77"
 
+    this.otherX = EX
+    this.otherY = EY
+
     this.rand = Math.floor(Math.random() * 10)
 
     this.isOnScreen = false
 
     this.restartPos = true
-
-
   }
 
 
   public handleMovement(dt: number, EX: number, EY: number) {
     this.BTick += dt
 
-    //if (this.BTick >= 0.2) {
-    this.rand = Math.floor(Math.random() * 500)
-    this.BTick = 0
-    //}
+    this.otherX = EX
+    this.otherY = EY
+
+    if (this.BTick >= 0.2) {
+      this.rand = Math.floor(Math.random() * 500)
+      this.BTick = 0
+    }
 
     if (this.rand === 5 && !this.isOnScreen) {
-      this.x = EX + 15
-      this.y = EY + 25
+      this.x = this.otherX + 15
+      this.y = this.otherY + 25
     }
 
     if (this.y > 1280) {
