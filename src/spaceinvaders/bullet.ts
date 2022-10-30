@@ -47,12 +47,12 @@ export class Bullet {
     this.otherX = EX
     this.otherY = EY
 
-    if (this.BTick >= 0.2) {
-      this.rand = Math.floor(Math.random() * 500)
+    if (this.BTick >= 0.25) {
       this.BTick = 0
+      this.rand = Math.floor(Math.random() * 200)
     }
 
-    if (this.rand === 5 && !this.isOnScreen) {
+    if (this.rand === 50 && !this.isOnScreen) {
       this.x = this.otherX + 15
       this.y = this.otherY + 25
     }

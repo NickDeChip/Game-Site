@@ -45,3 +45,62 @@ export class Enemy {
   }
 
 }
+
+export class UFO {
+  public x: number
+  public y: number
+  private width: number
+  private hight: number
+
+  private tick: number
+  private rand: number
+  private isOnScreen: boolean
+
+  constructor() {
+    this.x = -100
+    this.y = -100
+    this.width = 60
+    this.hight = 30
+
+    this.tick = 0
+    this.rand = 0
+  }
+
+  public HandleUFO(dt: number) {
+    this.x += -500 * dt
+    this.tick += dt
+
+    console.log(this.isOnScreen)
+
+    if (this.tick >= 0.5) {
+      this.tick = 0
+      this.rand = Math.floor(Math.random() * 100)
+    }
+
+    if (this.rand === 50 && !this.isOnScreen) {
+      this.x = 1300
+      this.y = 20
+    }
+
+    if (this.x <= -110) {
+      this.x = -100
+      this.y = -100
+      this.isOnScreen = false
+    }
+    if (this.x >= 1300) {
+      this.isOnScreen = true
+    }
+  }
+
+  public checkCollisions(x: number, y: number, width: number, hight: number) {
+    if (rage.checkCollisionsRecs(this.x, this.y, this.width, this.hight, x, y, width, hight)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  public draw() {
+    rage.drawRect(this.x, this.y, this.width, this.hight, "#FF00FF")
+  }
+}

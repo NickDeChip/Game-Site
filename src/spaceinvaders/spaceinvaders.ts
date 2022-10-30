@@ -1,8 +1,10 @@
 import { Rage } from "rage";
 import { Bullet } from "./bullet";
 import { Enemy } from "./enemy"
+import { UFO } from "./enemy"
 
 let rage: Rage
+let ufo: UFO
 const enemys: Enemy[][] = []
 const bullets: Bullet[][] = []
 
@@ -13,6 +15,7 @@ const totalEnemys = 50
 
 const main = () => {
   rage = new Rage("SI-canvas", winWidth, winHight)
+  ufo = new UFO()
   rage.clearColor = "#202020"
 
   for (let i = 0; i < totalEnemys / 10; i++) {
@@ -25,7 +28,6 @@ const main = () => {
           enemys[i][j] = new Enemy(60, 50 * i, 3)
           enemys[i][j].y += 50
           bullets[i][j] = new Bullet()
-        } else if (i == 1 || i === 2) {
         } else if (i == 1 || i === 2) {
           enemys[i][j] = new Enemy(60, 50 * i, 2)
           enemys[i][j].y += 50
@@ -91,6 +93,7 @@ const draw = () => {
   rage.drawRect(player.x, player.y, player.width, player.height, "white")
   rage.drawRect(player.BX, player.BY, player.BWidth, player.BHeight, "white")
   rage.drawText(10, 20, "white", 50, `Score: ${state.score}`)
+  ufo.draw()
 
   for (let i = 0; i < enemys.length; i++) {
     for (let j = 0; j < enemys[i].length; j++) {
@@ -115,6 +118,7 @@ const update = () => {
   if (state.isGameOver) {
     return
   }
+  handleEnemyMovement(dt)
 
   enemyBulletMovement(dt)
 
@@ -124,11 +128,19 @@ const update = () => {
 
   handleBullet(dt)
 
-  handleEnemyMovement(dt)
+  ufo.HandleUFO(dt)
+
+  if (ufo.checkCollisions(player.BX, player.BY, player.BWidth, player.BHeight)) {
+    ufo.x = -100
+    ufo.y = -100
+    state.score += 200
+  }
 
   if (state.enemysAlive === 0) {
     state.enemysAlive = totalEnemys
     state.tickRate = state.enemysAlive * (0.5 / totalEnemys)
+    state.moveDirection = 17.5
+    state.shouldMoveDown = false
     enemyRefresh()
   }
 }
@@ -230,14 +242,11 @@ let EY = 0
 const enemyBulletMovement = (dt: number) => {
   for (let i = 0; i < bullets.length; i++) {
     for (let j = 0; j < bullets[i].length; j++) {
-      for (const enemyRow of enemys) {
-        if (enemyRow.length) {
-          EX = enemys[i][j].x
-          EY = enemys[i][j].y
-        } else {
-          continue
-        }
+      if (!enemys.length && !enemys[i][j]) {
+        continue
       }
+      EX = enemys[i][j].x
+      EY = enemys[enemys.length - 1][j].y
       bullets[i][j].handleMovement(dt, EX, EY)
     }
   }
