@@ -20,4 +20,4 @@ pong
 snake
 
 
-Space Invaders (work in progress)
+Space Invaders

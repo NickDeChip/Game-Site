@@ -1270,9 +1270,9 @@ posthtml@^0.16.4, posthtml@^0.16.5:
     posthtml-parser "^0.11.0"
     posthtml-render "^3.0.0"
 
-"rage@https://github.com/NickDeChip/rage":
+"rage@https://github.com/NickDeChip/rage.git":
   version "1.0.0"
-  resolved "https://github.com/NickDeChip/rage#ae8f4b30f084313a8cfb2a130fa61871c23a730a"
+  resolved "https://github.com/NickDeChip/rage.git#1e742cb7d3a9ee37f708a75dd96699cb1a97c87a"
   dependencies:
     typescript "^4.8.4"
 

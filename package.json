@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "parcel": "^2.7.0",
-    "rage": "https://github.com/NickDeChip/rage",
+    "rage": "https://github.com/NickDeChip/rage.git",
     "typescript": "^4.8.4",
     "vector2d": "^3.0.0"
   }
