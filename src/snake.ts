@@ -1,5 +1,6 @@
 import { Rage } from "rage";
 import * as Vec2D from "vector2d"
+import { RageVectors } from "rage"
 
 let rage: Rage
 
@@ -138,6 +139,7 @@ const snakeMovement = () => {
       snake.tail[i] = snake.tail[i + 1]
     }
     if (snake.total >= 1) {
+      //snake.tail[snake.total - 1] = new RageVectors().Vec2(snake.x, snake.y)
       snake.tail[snake.total - 1] = new Vec2D.Vector(snake.x, snake.y)
     }
 

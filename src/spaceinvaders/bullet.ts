@@ -49,10 +49,10 @@ export class Bullet {
 
     if (this.BTick >= 0.25) {
       this.BTick = 0
-      this.rand = Math.floor(Math.random() * 200)
+      this.rand = Math.floor(Math.random() * 10)
     }
 
-    if (this.rand === 50 && !this.isOnScreen) {
+    if (this.rand === 1 && !this.isOnScreen) {
       this.x = this.otherX + 15
       this.y = this.otherY + 25
     }
@@ -79,4 +79,7 @@ export class Bullet {
     rage.drawRect(this.x, this.y, this.width, this.height, this.colour)
   }
 
+  public handleCollions(x: number, y: number, width: number, height: number) {
+    return rage.checkCollisionsRecs(this.x, this.y, this.width, this.height, x, y, width, height)
+  }
 }

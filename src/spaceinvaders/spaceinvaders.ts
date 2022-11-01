@@ -93,6 +93,7 @@ const draw = () => {
   rage.drawRect(player.x, player.y, player.width, player.height, "white")
   rage.drawRect(player.BX, player.BY, player.BWidth, player.BHeight, "white")
   rage.drawText(10, 20, "white", 50, `Score: ${state.score}`)
+  rage.drawText(winWidth - 200, 20, "white", 50, `Lives: ${state.lives}`)
   ufo.draw()
 
   for (let i = 0; i < enemys.length; i++) {
@@ -107,22 +108,26 @@ const draw = () => {
 const update = () => {
   const dt = rage.getDT()
 
-  if (state.lives <= 0) {
-    state.isGameOver = true
-  }
-
   if (rage.isKeyDown("r")) {
     restart()
   }
 
+  if (state.lives <= 0) {
+    state.isGameOver = true
+  }
+
+
   if (state.isGameOver) {
     return
   }
+
   handleEnemyMovement(dt)
+
+  handleEnemyCollision()
 
   enemyBulletMovement(dt)
 
-  handleEnemyCollision()
+  handleEnemyBulletCollision()
 
   playerMovement(dt)
 
@@ -190,6 +195,7 @@ const handleEnemyCollision = () => {
     for (let j = 0; j < enemys[i].length; j++) {
       if (enemys[i][j].collision(player.BX, player.BY, player.BWidth, player.BHeight)) {
         pointsToGive = enemys[i][j].value
+        bullets[i].splice(j, 1)
         enemys[i].splice(j, 1)
         player.BX = -100
         player.BY = 1000
@@ -237,17 +243,30 @@ const handleEnemyMovement = (dt: number) => {
 }
 
 
-let EX = 0
-let EY = 0
 const enemyBulletMovement = (dt: number) => {
-  for (let i = 0; i < bullets.length; i++) {
-    for (let j = 0; j < bullets[i].length; j++) {
-      if (!enemys.length && !enemys[i][j]) {
-        continue
+  for (let i = enemys.length - 1; i > -1; i--) {
+    if (enemys[i].length === 0) continue;
+    for (let j = 0; j < enemys[i].length; j++) {
+      const ex = enemys[i][j].x
+      const ey = enemys[i][j].y
+      if (i !== enemys.length - 1) {
+        let foundEnemy = false
+        for (let r = i + 1; r < enemys.length; r++) {
+          for (const enemy of enemys[r]) {
+            if (enemy.x === enemys[i][j].x) {
+              foundEnemy = true
+              break
+            }
+          }
+          if (foundEnemy) {
+            break
+          }
+        }
+        if (foundEnemy) {
+          continue
+        }
       }
-      EX = enemys[i][j].x
-      EY = enemys[enemys.length - 1][j].y
-      bullets[i][j].handleMovement(dt, EX, EY)
+      bullets[i][j].handleMovement(dt, ex, ey)
     }
   }
 }
@@ -294,10 +313,22 @@ const enemyRefresh = () => {
   }
 }
 
+const handleEnemyBulletCollision = () => {
+  for (let i = 0; i < bullets.length; i++) {
+    for (let j = 0; j < bullets[i].length; j++) {
+      if (bullets[i][j].handleCollions(player.x, player.y, player.width, player.height)) {
+        bullets[i][j].x = -100
+        bullets[i][j].y = 1000
+        state.lives -= 1
+      }
+    }
+  }
+}
+
 const restart = () => {
-  player.x = winWidth / 2 - 25,
-    player.y = winHight - 100,
-    player.IsBulletOnScreen = false
+  player.x = winWidth / 2 - 25
+  player.y = winHight - 100
+  player.IsBulletOnScreen = false
   state.isGameOver = false
   state.tickRate = 0.5
   state.enemysAlive = totalEnemys

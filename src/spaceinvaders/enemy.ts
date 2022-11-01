@@ -70,8 +70,6 @@ export class UFO {
     this.x += -500 * dt
     this.tick += dt
 
-    console.log(this.isOnScreen)
-
     if (this.tick >= 0.5) {
       this.tick = 0
       this.rand = Math.floor(Math.random() * 100)
